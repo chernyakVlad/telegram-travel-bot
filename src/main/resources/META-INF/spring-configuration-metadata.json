@@ -1,0 +1,12 @@
+{
+  "properties": [
+    {
+      "name": "bot.travel.username",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "bot.travel.token",
+      "type": "java.lang.String"
+    }
+  ]
+}
