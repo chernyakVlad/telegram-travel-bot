@@ -6,7 +6,6 @@ import com.chernayk.telegramtravelbot.model.CityInfo;
 import com.chernayk.telegramtravelbot.repository.CityInfoRepository;
 import com.chernayk.telegramtravelbot.repository.CityRepository;
 import com.chernayk.telegramtravelbot.service.TravelBot;
-import com.codepoetics.protonpack.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -25,7 +24,7 @@ public class CityTelegramMessageHandler implements TelegramMessageHandler {
 
     public static String CITY_NOT_FOUND_TEXT = "Данного города нет в моей базе :(";
     public static String CITY_INFOS_NOT_FOUND_TEXT = "К сожалению информации о данном городе нет в моей базе :(";
-    public static String CITY_TEXT = "Не забудь посетить:";
+    public static String CITY_TEXT = "Не забудь посетить \ud83d\udd2d:";
     public static String DIAMOND_EMOJI = "\ud83d\udd39";
 
     private TravelBot travelBot;
