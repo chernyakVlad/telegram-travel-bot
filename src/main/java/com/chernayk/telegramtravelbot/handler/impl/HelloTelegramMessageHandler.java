@@ -5,6 +5,11 @@ import com.chernayk.telegramtravelbot.service.TravelBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
+
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class HelloTelegramMessageHandler implements TelegramMessageHandler {
@@ -23,8 +28,11 @@ public class HelloTelegramMessageHandler implements TelegramMessageHandler {
         }
 
         Long chatId = update.getMessage().getChatId();
+        User user = update.getMessage().getFrom();
 
-        String text = "Привет," + update.getMessage().getFrom().getFirstName() + " ! Я туристический бот.";
+        String text = Stream.of("Привет,", user.getLastName(), user.getFirstName())
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(" "));
 
         travelBot.sendTextMessage(chatId, text);
     }

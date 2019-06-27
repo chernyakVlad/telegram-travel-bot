@@ -16,6 +16,7 @@ import java.util.Optional;
 @Component
 public class CityTelegramMessageHandler implements TelegramMessageHandler {
 
+    public static String CITY_NOT_FOUND_TEXT = "Данного города нет в нашей базе :(";
     private TravelBot travelBot;
     private CityRepository cityRepository;
     private CityInfoRepository cityInfoRepository;
@@ -41,11 +42,9 @@ public class CityTelegramMessageHandler implements TelegramMessageHandler {
             List<CityInfo> cityInfos = cityInfoRepository.getCityInfoByCity(city.get());
 
             text = cityInfos.get(0).getInfo();
+            travelBot.sendTextMessage(chatId, text);
         } else {
-            text = "Данного города нет в нашей базе :(";
+            travelBot.sendTextMessage(chatId, CITY_NOT_FOUND_TEXT);
         }
-
-        travelBot.sendTextMessage(chatId, text);
-
     }
 }
