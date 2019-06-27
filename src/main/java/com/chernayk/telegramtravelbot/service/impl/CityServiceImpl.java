@@ -21,7 +21,12 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public Optional<City> getCityById(Long id) {
-        return Optional.of(cityRepository.getOne(id));
+        return cityRepository.getById(id);
+    }
+
+    @Override
+    public Optional<City> getCityByName(String name) {
+        return cityRepository.getByName(name);
     }
 
     @Override

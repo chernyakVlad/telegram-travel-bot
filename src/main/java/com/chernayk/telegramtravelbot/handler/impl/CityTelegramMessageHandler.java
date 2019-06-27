@@ -10,13 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class CityTelegramMessageHandler implements TelegramMessageHandler {
 
-    public static String CITY_NOT_FOUND_TEXT = "Данного города нет в нашей базе :(";
+    private static String CITY_NOT_FOUND_TEXT = "Данного города нет в моей базе :(";
     private TravelBot travelBot;
     private CityRepository cityRepository;
     private CityInfoRepository cityInfoRepository;
@@ -31,7 +36,8 @@ public class CityTelegramMessageHandler implements TelegramMessageHandler {
     @Override
     public void handle(Update update) {
         if(update.getMessage().getText().startsWith(TravelBot.HELP_BUTTON)
-            || update.getMessage().getText().startsWith(TravelBot.HELLO_BUTTON)) {
+            || update.getMessage().getText().startsWith(TravelBot.HELLO_BUTTON)
+            || update.getMessage().getText().startsWith(TravelBot.START_COMMAND)) {
             return;
         }
 
@@ -39,9 +45,12 @@ public class CityTelegramMessageHandler implements TelegramMessageHandler {
         Optional<City> city = cityRepository.getByName(update.getMessage().getText());
         String text;
         if(city.isPresent()){
-            List<CityInfo> cityInfos = cityInfoRepository.getCityInfoByCity(city.get());
+            List<CityInfo> cityInfos = cityInfoRepository.getAllByCityId(city.get().getId());
 
-            text = cityInfos.get(0).getInfo();
+            text = cityInfos.stream()
+                    .filter(Objects::nonNull)
+                    .map(cityInfo -> cityInfo.getInfo())
+                    .collect(Collectors.joining("\n"));
             travelBot.sendTextMessage(chatId, text);
         } else {
             travelBot.sendTextMessage(chatId, CITY_NOT_FOUND_TEXT);

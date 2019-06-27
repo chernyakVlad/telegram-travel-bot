@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface CityRepository extends JpaRepository<City, Long> {
     Optional<City> getByName(String name);
+    Optional<City> getById(Long id);
 }

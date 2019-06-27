@@ -9,8 +9,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class HelpTelegramMessageHandler implements TelegramMessageHandler {
 
+    private static String HELP_TEXT = "Я туристический бот. Я выдаю справочную информацию о городах. Для начала введи название города.";
+    private TravelBot travelBot;
+
     @Autowired
-    TravelBot travelBot;
+    public HelpTelegramMessageHandler(TravelBot travelBot) {
+        this.travelBot = travelBot;
+    }
 
     @Override
     public void handle(Update update) {
@@ -20,8 +25,6 @@ public class HelpTelegramMessageHandler implements TelegramMessageHandler {
 
         Long chatId = update.getMessage().getChatId();
 
-        String text = "Я туристический бот. Я выдаю справочную информацию о городах. Для начала введи название города.";
-
-        travelBot.sendTextMessage(chatId, text);
+        travelBot.sendTextMessage(chatId, HELP_TEXT);
     }
 }

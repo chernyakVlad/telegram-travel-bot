@@ -14,8 +14,8 @@ public class CityInfo {
     @NotBlank(message = "Info is required")
     private String info;
 
-    @ManyToOne
-    private City city;
+    @Column(name = "city_id")
+    private Long cityId;
 
     public Long getId() {
         return id;
@@ -33,11 +33,11 @@ public class CityInfo {
         this.info = info;
     }
 
-    public City getCity() {
-        return city;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 }
