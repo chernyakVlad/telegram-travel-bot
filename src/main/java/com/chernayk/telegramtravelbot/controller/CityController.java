@@ -29,7 +29,6 @@ public class CityController {
         }
 
         Optional<City> result = cityService.getCityById(id);
-        System.out.println(result.get().getName());
 
         if(result.isPresent()){
             return new ResponseEntity<City>(result.get(), HttpStatus.OK);

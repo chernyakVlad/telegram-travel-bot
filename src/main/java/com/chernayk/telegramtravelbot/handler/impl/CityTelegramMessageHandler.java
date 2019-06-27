@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 public class CityTelegramMessageHandler implements TelegramMessageHandler {
 
     private static String CITY_NOT_FOUND_TEXT = "Данного города нет в моей базе :(";
+    private static String CITY_TEXT = "Не забудь посетить:";
     private TravelBot travelBot;
     private CityRepository cityRepository;
     private CityInfoRepository cityInfoRepository;
@@ -48,9 +49,11 @@ public class CityTelegramMessageHandler implements TelegramMessageHandler {
             List<CityInfo> cityInfos = cityInfoRepository.getAllByCityId(city.get().getId());
 
             text = cityInfos.stream()
+
                     .filter(Objects::nonNull)
                     .map(cityInfo -> cityInfo.getInfo())
                     .collect(Collectors.joining("\n"));
+            travelBot.sendTextMessage(chatId, CITY_TEXT);
             travelBot.sendTextMessage(chatId, text);
         } else {
             travelBot.sendTextMessage(chatId, CITY_NOT_FOUND_TEXT);
