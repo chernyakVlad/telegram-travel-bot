@@ -14,7 +14,7 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     @NotBlank(message = "Name is required")
     private String name;
 

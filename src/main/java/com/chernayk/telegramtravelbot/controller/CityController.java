@@ -56,11 +56,15 @@ public class CityController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<City>(cityService.saveCity(city), HttpStatus.CREATED);
+        if(cityService.getCityByName(city.getName()).isPresent()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<City>(cityService.saveCity(city), HttpStatus.CREATED);
+        }
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<City> saveCity(@PathVariable Long id) {
+    public ResponseEntity<City> deleteCity(@PathVariable Long id) {
 
         if(id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
